@@ -1,34 +1,39 @@
 import { useState } from 'react';
 import './App.css';
 
-function App() {
-  const [books, setbooks] = useState(
-    [{title: "You Don't know JS: Up and Going", author: "Kyle Simpson", des: "blah", img:"yup"}
-  ])
+
+function App({ bookData }) {
+  console.log(bookData)
   return (
       <div className='App'>
-
-        <h1>Hello world</h1>
-        <div className='book-list'>
-          {books.map(books => <Books title={books.title} author={books.author} des={books.des} img={books.img} />)}
-
+          <Books bookData={bookData} />
         </div>
-
-
-      </div>
-  
-
   );
 }
-function Books({title, author, des, img}) {
-  return(
-    <div>
-      <p>{title}</p>
-      <p>{author}</p>
-      <p>{des}</p>
-      <p>{img}</p>
-    </div>
-  )
+
+
+function Books({ bookData }) {
+  const[expanded, setExpanded] = useState(false);
+  const handleClick = () => setExpanded(!expanded);
+
+  return (
+  <>
+    {bookData.map((book) => (
+      <div  className='wrapper' onClick={handleClick}>
+        <div className='item'>
+          <h1>{book.title}</h1>
+          <p>{book.author}</p>
+          <p>{book.shortDescription}</p>
+          <p><i className="arrow right"></i> More Information</p>
+          <div style={{border:'1px solid silver'}}><img className='image' src={book.coverImageUrl} alt="" />
+        </div>
+        </div>
+        
+        {expanded && <img className='image'src= 'yup' alt=''></img>}
+        </div>
+    ))}
+  </>
+  )  
 }
 
 export default App;
